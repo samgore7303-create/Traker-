@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Habit Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#120f1d;--card:#1c1830;--line:#2f2a4d;--tx:#ece9fb;--mut:#8f89b3;--gold:#ffb454;--vio:#8b7bff;--pink:#ff6fae;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);color-scheme:dark;background:var(--bg)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:radial-gradient(900px 500px at 80% -10%,#2a1f55 0%,transparent 60%),var(--bg);color:var(--tx);font-family:'Bricolage Grotesque',system-ui,sans-serif;min-height:100vh}
+.wrap{max-width:560px;margin:0 auto;padding:20px 16px 40px}
+h1{font-size:28px;font-weight:800;margin:4px 0 14px;letter-spacing:-.02em}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.nav button,.nav input{background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:12px;height:42px;font:inherit}
+.nav button{width:42px;font-size:18px;cursor:pointer}
+.nav button:disabled{opacity:.3;cursor:default}
+.nav input{flex:1;text-align:center;padding:0 8px;color-scheme:dark}
+.hero{display:flex;align-items:center;gap:18px;background:linear-gradient(135deg,#251f4a,#1c1830);border:1px solid var(--line);border-radius:20px;padding:18px;margin-bottom:16px}
+.ring{position:relative;width:96px;height:96px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.ring .bg{stroke:var(--line)}
+.ring .fg{stroke:url(#g);transition:stroke-dashoffset .7s cubic-bezier(.2,.8,.2,1)}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:24px;font-weight:800}
+.hero p{margin:0;color:var(--mut);font-size:14px;line-height:1.45}
+.hero strong{display:block;color:var(--tx);font-size:19px;margin-bottom:3px}
+ul{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:10px}
+li{display:flex;align-items:center;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px;transition:border-color .3s,background .3s}
+li.done{border-color:#ffb45466;background:#241f33}
+li.done .nm{color:var(--mut);text-decoration:line-through;text-decoration-color:#ffb45499}
+.chk{position:relative;width:34px;height:34px;flex:none;border-radius:11px;border:2px solid #4a4478;background:transparent;cursor:pointer;padding:0;transition:all .25s}
+li.done .chk{background:var(--gold);border-color:var(--gold);transform:scale(1.04)}
+.chk svg{position:absolute;inset:5px;width:20px;height:20px}
+.chk path{fill:none;stroke:#2a1a00;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:24;stroke-dashoffset:24;transition:stroke-dashoffset .3s .08s}
+li.done .chk path{stroke-dashoffset:0}
+.nm{flex:1;font-size:16px;font-weight:600;word-break:break-word}
+.del{background:none;border:0;color:var(--mut);font-size:20px;cursor:pointer;padding:6px;opacity:.6}
+.del:hover{color:var(--pink);opacity:1}
+.sp{position:absolute;left:50%;top:50%;width:7px;height:7px;border-radius:50%;pointer-events:none;animation:fly .6s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--x),var(--y)) scale(.2);opacity:0}}
+.add{display:flex;gap:8px;margin-bottom:22px}
+.add input{flex:1;min-width:0;background:var(--card);border:1px solid var(--line);color:var(--tx);border-radius:14px;padding:0 14px;height:46px;font:inherit;font-size:16px}
+.add input:focus,.nav input:focus{outline:2px solid var(--vio);outline-offset:1px}
+.add button{background:var(--vio);color:#120f1d;border:0;border-radius:14px;padding:0 18px;font:inherit;font-weight:800;cursor:pointer}
+.empty{text-align:center;color:var(--mut);padding:26px 10px;border:1px dashed var(--line);border-radius:16px}
+.chart{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px}
+.ch{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ch h2{margin:0;font-size:17px}
+.tabs{display:flex;gap:4px}
+.tabs button{background:none;border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:5px 11px;font:inherit;font-size:13px;cursor:pointer}
+.tabs button.on{background:var(--vio);border-color:var(--vio);color:#120f1d;font-weight:800}
+#cv{width:100%;height:auto;display:block;touch-action:manipulation}
+.tip{color:var(--mut);font-size:13px;min-height:18px;margin-top:6px}
+button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Habit Tracker</h1>
+  <div class="nav">
+    <button id="prev" aria-label="Previous day">‹</button>
+    <input type="date" id="dp" aria-label="Pick a day">
+    <button id="next" aria-label="Next day">›</button>
+  </div>
+  <div class="hero">
+    <div class="ring">
+      <svg width="96" height="96" viewBox="0 0 96 96"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb454"/><stop offset="1" stop-color="#ff6fae"/></linearGradient></defs>
+      <circle class="bg" cx="48" cy="48" r="40"/><circle class="fg" id="fg" cx="48" cy="48" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3"/></svg>
+      <b id="pct">0%</b>
+    </div>
+    <p><strong id="ttl"></strong><span id="sub"></span></p>
+  </div>
+  <ul id="list"></ul>
+  <form class="add" id="f" onsubmit="return false">
+    <input id="in" placeholder="New habit, e.g. Wake up at 5 am" maxlength="60" autocomplete="off">
+    <button id="addb" type="button">Add habit</button>
+  </form>
+  <div class="chart">
+    <div class="ch"><h2>Your progress</h2><div class="tabs" id="tabs"></div></div>
+    <svg id="cv" viewBox="0 0 520 220"></svg>
+    <div class="tip" id="tip">Tap a point to open that day.</div>
+  </div>
+</div>
+<script>
+var KEY='habit-tracker-v1',S={habits:[],log:{}},range=7;
+try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function parse(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
+function shift(s,n){var d=parse(s);d.setDate(d.getDate()+n);return ymd(d)}
+var today=ymd(new Date()),sel=today;
+function active(d){return S.habits.filter(function(h){return h.created<=d&&(!h.removed||h.removed>d)})}
+function stat(d){var a=active(d),l=S.log[d]||[],n=a.filter(function(h){return l.indexOf(h.id)>-1}).length;return{n:n,t:a.length,p:a.length?Math.round(n/a.length*100):null}}
+function $(i){return document.getElementById(i)}
+function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function burst(el){var cols=['#ffb454','#ff6fae','#8b7bff','#ece9fb'];for(var i=0;i<10;i++){var s=document.createElement('i');s.className='sp';var a=i/10*6.283,r=26+Math.random()*14;s.style.setProperty('--x',Math.cos(a)*r+'px');s.style.setProperty('--y',Math.sin(a)*r+'px');s.style.background=cols[i%4];el.appendChild(s);setTimeout(function(n){return function(){n.remove()}}(s),650)}}
+function toggle(id,btn){var l=S.log[sel]||(S.log[sel]=[]),i=l.indexOf(id);if(i>-1)l.splice(i,1);else{l.push(id);burst(btn)}save();render(true)}
+function render(keep){
+  $('dp').value=sel;$('dp').max=today;$('next').disabled=sel>=today;
+  var st=stat(sel),a=active(sel),l=S.log[sel]||[];
+  $('pct').textContent=(st.p||0)+'%';
+  $('fg').style.strokeDashoffset=251.3*(1-(st.p||0)/100);
+  var isT=sel===today,label=isT?'Today':sel===shift(today,-1)?'Yesterday':parse(sel).toLocaleDateString(undefined,{weekday:'long',day:'numeric',month:'short'});
+  $('ttl').textContent=label;
+  var miss=st.t-st.n;
+  $('sub').textContent=!st.t?'No habits yet. Add your first one below.':st.n===st.t?'All '+st.t+' habits done. Great work!':st.n+' of '+st.t+' done'+(isT?'. '+miss+' to go.':'. You missed '+miss+'.');
+  var ul=$('list');
+  if(!keep||ul.children.length!==a.length||ul.querySelector('.empty')){ul.innerHTML=''}
+  if(!a.length){ul.innerHTML='<div class="empty">Nothing to track on this day.</div>'}
+  else{
+    a.forEach(function(h,i){
+      var d=l.indexOf(h.id)>-1,li=ul.children[i];
+      if(!li||li.dataset.id!==h.id){
+        li=document.createElement('li');li.dataset.id=h.id;
+        li.innerHTML='<button class="chk" aria-label="Mark done"><svg viewBox="0 0 20 20"><path d="M3 10.5l4.5 4.5L17 5"/></svg></button><span class="nm">'+esc(h.name)+'</span><button class="del" aria-label="Remove habit">×</button>';
+        li.querySelector('.chk').onclick=function(){toggle(h.id,this)};
+        li.querySelector('.del').onclick=function(){if(confirm('Remove "'+h.name+'"? Past history stays.')){h.removed=shift(today,1);save();render()}};
+        if(ul.children[i])ul.replaceChild(li,ul.children[i]);else ul.appendChild(li);
+      }
+      li.classList.toggle('done',d);
+    });
+  }
+  chart();
+}
+function chart(){
+  var days=[],i;for(i=range-1;i>=0;i--)days.push(shift(today,-i));
+  var W=520,H=220,L=36,R=14,T=14,B=28,pw=W-L-R,ph=H-T-B,svg='';
+  svg+='<defs><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b7bff" stop-opacity=".45"/><stop offset="1" stop-color="#8b7bff" stop-opacity="0"/></linearGradient></defs>';
+  [0,50,100].forEach(function(v){var y=T+ph*(1-v/100);svg+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+y+'" y2="'+y+'" stroke="#2f2a4d" stroke-dasharray="3 5"/><text x="'+(L-8)+'" y="'+(y+4)+'" fill="#8f89b3" font-size="11" text-anchor="end">'+v+'%</text>'});
+  var pts=days.map(function(d,k){var s=stat(d);return{d:d,p:s.p,x:L+(range>1?k/(range-1):0)*pw,y:s.p==null?null:T+ph*(1-s.p/100)}});
+  var seg=pts.filter(function(p){return p.p!=null});
+  if(seg.length>1){
+    var path=seg.map(function(p,k){return(k?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1)}).join(' ');
+    svg+='<path d="'+path+' L'+seg[seg.length-1].x.toFixed(1)+' '+(T+ph)+' L'+seg[0].x.toFixed(1)+' '+(T+ph)+'Z" fill="url(#ar)"/><path d="'+path+'" fill="none" stroke="#8b7bff" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>';
+  }
+  pts.forEach(function(p){
+    if(p.p==null)return;var on=p.d===sel;
+    if(range<=31||on)svg+='<circle cx="'+p.x+'" cy="'+p.y+'" r="'+(on?6:3.5)+'" fill="'+(on?'#ffb454':'#8b7bff')+'" stroke="#1c1830" stroke-width="2"/>';
+    svg+='<circle class="hit" data-d="'+p.d+'" cx="'+p.x+'" cy="'+p.y+'" r="13" fill="transparent" style="cursor:pointer"/>';
+  });
+  [0,Math.floor((range-1)/2),range-1].forEach(function(k,j){svg+='<text x="'+pts[k].x+'" y="'+(H-8)+'" fill="#8f89b3" font-size="11" text-anchor="'+(j==0?'start':j==2?'end':'middle')+'">'+parse(days[k]).toLocaleDateString(undefined,{day:'numeric',month:'short'})+'</text>'});
+  if(!seg.length)svg+='<text x="'+W/2+'" y="'+H/2+'" fill="#8f89b3" font-size="13" text-anchor="middle">Add habits to see your progress</text>';
+  $('cv').innerHTML=svg;
+  Array.prototype.forEach.call($('cv').querySelectorAll('.hit'),function(c){c.onclick=function(){sel=c.dataset.d;var s=stat(sel);render();$('tip').textContent=parse(sel).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})+': '+s.n+' of '+s.t+' done ('+s.p+'%)'}});
+}
+function tabs(){$('tabs').innerHTML='';[7,30,90].forEach(function(r){var b=document.createElement('button');b.textContent=r+'d';b.className=r===range?'on':'';b.onclick=function(){range=r;tabs();chart()};$('tabs').appendChild(b)})}
+function addHabit(){var v=$('in').value.trim();if(!v)return;S.habits.push({id:'h'+Date.now(),name:v,created:sel});$('in').value='';save();render()}
+$('addb').onclick=addHabit;$('in').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();addHabit()}};
+$('prev').onclick=function(){sel=shift(sel,-1);render()};
+$('next').onclick=function(){if(sel<today){sel=shift(sel,1);render()}};
+$('dp').onchange=function(){if(this.value&&this.value<=today){sel=this.value;render()}};
+tabs();render();
+</script>
+</body>
+</html>
