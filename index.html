@@ -80,14 +80,108 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 #bt{width:100%;height:90px;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:8px;font:12px monospace;margin:8px 0}
 .panel hr{border:0;border-top:1px solid var(--line);margin:14px 0}
 .tb[hidden]{display:none}
+#gear{font-size:24px;font-weight:800;line-height:1;padding:0}
+.mwrap{position:relative;flex:none}
+.menu{position:absolute;top:48px;left:0;z-index:20;min-width:210px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:6px;box-shadow:0 14px 34px #000a}
+.menu button{display:block;width:100%;text-align:left;background:none;border:0;color:var(--tx);font:inherit;font-size:15px;font-weight:600;padding:11px 12px;border-radius:9px;cursor:pointer}
+.menu button.on{background:#2a2450;color:var(--gold)}
+.menu button:hover{background:#262046}
+.msep{height:1px;background:var(--line);margin:5px 4px}
+#habitView[hidden],#weightView[hidden]{display:none}
+.wcard{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:grid;gap:12px;margin-bottom:16px}
+.wtop{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.wl{font-size:13px;font-weight:600;color:var(--mut)}
+.wdate{display:grid;grid-template-columns:42px minmax(0,1fr) 42px;gap:8px}
+.wdate button,.wdate input{background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:12px;height:44px;font:inherit;color-scheme:dark}
+.wdate button{font-size:18px;cursor:pointer}
+.wdate button:disabled{opacity:.3;cursor:default}
+.wdate input{text-align:center;min-width:0;padding:0 8px}
+.wwt{position:relative}
+.wwt input{width:100%;height:56px;background:var(--bg);border:1px solid var(--line);border-radius:12px;color:var(--tx);font:800 26px 'Bricolage Grotesque',system-ui,sans-serif;padding:0 56px 0 14px}
+.wwt input:focus,.wdate input:focus{outline:2px solid var(--vio);outline-offset:1px}
+.wunit{position:absolute;right:16px;top:50%;transform:translateY(-50%);color:var(--mut);font-size:15px;font-weight:600;pointer-events:none}
+#wsave{background:var(--vio);color:#120f1d;border:0;border-radius:12px;height:50px;font:inherit;font-size:16px;font-weight:800;cursor:pointer}
+#wsave:disabled{opacity:.55}
+.wmsg{font-size:13px;color:var(--mut);margin:0;line-height:1.4}
+.wmsg:empty{display:none}
+.wmsg.ok{color:var(--gold)}
+.wmsg.err{color:var(--pink)}
+.wstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));background:var(--card);border:1px solid var(--line);border-radius:20px;margin-bottom:16px}
+.ws{padding:14px 12px;min-width:0}
+.ws+.ws{border-left:1px solid var(--line)}
+.wk{font-size:12px;color:var(--mut);font-weight:600}
+.wv{font-size:24px;font-weight:800;margin-top:6px;white-space:nowrap;letter-spacing:-.01em}
+.wv small{font-size:12px;color:var(--mut);font-weight:600;margin-left:3px}
+.wsub{font-size:12px;color:var(--mut);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wlist{margin-top:16px}
+.wlist h2{margin:0 0 8px;font-size:17px}
+.wr{display:grid;grid-template-columns:minmax(0,1fr) auto 54px 76px;align-items:center;gap:8px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.wdt{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wr b{font-weight:800;font-size:15px}
+.wr b small{color:var(--mut);font-weight:600;font-size:11px;margin-left:3px}
+.wdl{color:var(--mut);font-size:12px;text-align:right}
+.wdel{background:none;border:1px solid transparent;color:var(--mut);font:inherit;font-size:12px;font-weight:600;min-height:32px;border-radius:8px;padding:0 6px;cursor:pointer}
+.wdel.armed{color:var(--pink);border-color:var(--pink);font-weight:800}
+.wempty{color:var(--mut);margin:0;padding:12px 0;font-size:14px}
+.wmore{margin-top:10px;background:none;border:1px solid var(--line);color:var(--mut);border-radius:10px;padding:8px 14px;font:inherit;font-size:13px;cursor:pointer}
+@media (max-width:420px){.wv{font-size:20px}.wr{grid-template-columns:minmax(0,1fr) auto 44px 70px}}
+.acct input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--tx);border-radius:12px;height:44px;padding:0 12px;font:inherit;font-size:15px;margin-bottom:8px}
+.acct input:focus{outline:2px solid var(--vio);outline-offset:1px}
+.arow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.panel p.asy{margin:0 0 8px;font-size:14px}
+.panel p.asy b{color:var(--tx)}
+.acct [hidden]{display:none}
+.ph{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.panel .ph h2{margin:0;font-size:20px}
+#pclose{background:none;border:1px solid var(--line);color:var(--tx);width:38px;height:38px;border-radius:10px;font-size:17px;line-height:1;cursor:pointer}
+#pclose:hover{border-color:var(--vio)}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="top"><button id="gear" aria-label="Settings">⚙</button><h1>Habit Tracker</h1></div>
+  <div class="top">
+    <div class="mwrap">
+      <button id="gear" aria-label="Menu" aria-haspopup="true" aria-expanded="false">⋮</button>
+      <div class="menu" id="menu" hidden>
+        <button type="button" data-v="habit" class="on">Habit Tracker</button>
+        <button type="button" data-v="weight">Weight Tracker</button>
+        <div class="msep"></div>
+        <button type="button" data-v="settings">Settings</button>
+      </div>
+    </div>
+    <h1 id="h1">Habit Tracker</h1>
+  </div>
   <div class="panel" id="panel" hidden>
+    <div class="ph"><h2>Settings</h2><button id="pclose" type="button" aria-label="Close settings">✕</button></div>
+    <div class="acct">
+      <h2>Account and sync</h2>
+      <div id="aoff">
+        <p>Optional. Log in with your email to keep your data in sync on all your devices. Cloud sync is not set up in this version.</p>
+        <button class="lnk" id="afbt" type="button">Set up cloud sync</button>
+        <div id="afb" hidden>
+          <p>Paste the apiKey and projectId from your Firebase web app settings.</p>
+          <input id="afk" placeholder="apiKey" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <input id="afp" placeholder="projectId" autocomplete="off" autocapitalize="off" spellcheck="false">
+          <button class="pb" id="afs" type="button">Save and continue</button>
+        </div>
+      </div>
+      <div id="ain" hidden>
+        <p>Optional. Log in to keep your habits and weights in sync across devices. The app works fine without an account.</p>
+        <input id="aem" type="email" placeholder="Email" autocomplete="email" autocapitalize="off">
+        <input id="apw" type="password" placeholder="Password (6+ characters)" autocomplete="current-password">
+        <div class="arow"><button class="pb" id="ali" type="button">Log in</button><button class="pb alt" id="asu" type="button">Create account</button></div>
+        <button class="lnk" id="afg" type="button">Forgot password?</button>
+      </div>
+      <div id="aon" hidden>
+        <p class="asy">Signed in as <b id="aemail"></b></p>
+        <p class="asy" id="async"></p>
+        <div class="arow"><button class="pb" id="asn" type="button">Sync now</button><button class="pb alt" id="alo" type="button">Log out</button></div>
+      </div>
+      <div class="bm" id="amsg" role="status" aria-live="polite"></div>
+    </div>
+    <hr>
     <h2>Backup</h2>
-    <p>Save a copy of all your habits, history and screen time to your phone, so you can recover them if the app loses its data.</p>
+    <p>Save a copy of all your habits, history, screen time and weights to your phone, so you can recover them if the app loses its data.</p>
     <button class="pb" id="bk" type="button">Save backup to phone</button>
     <button class="pb alt" id="rs" type="button">Restore from backup file</button>
     <input type="file" id="rf" accept=".json,application/json" hidden>
@@ -100,9 +194,10 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     </div>
     <hr>
     <h2>Reset</h2>
-    <p>Reset progress erases all your habits and history and returns the app to a fresh start. This can't be undone.</p>
+    <p>Reset progress erases all your habits, weights and history and returns the app to a fresh start. This can't be undone.</p>
     <button id="rst" type="button">Reset progress</button>
   </div>
+  <div id="habitView">
   <div class="nav">
     <button id="prev" aria-label="Previous day">‹</button>
     <input type="date" id="dp" aria-label="Pick a day">
@@ -129,13 +224,45 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
     <svg id="cv" viewBox="0 0 520 220"></svg>
     <div class="tip" id="tip">Tap a point to open that day.</div>
   </div>
+  </div>
+  <div id="weightView" hidden>
+    <form class="wcard" id="wform" autocomplete="off" novalidate>
+      <div class="wtop"><span class="wl">Log your weight</span><div class="tabs" id="wunits"></div></div>
+      <div class="wdate">
+        <button type="button" id="wprev" aria-label="Previous day">‹</button>
+        <input type="date" id="wdate" aria-label="Date">
+        <button type="button" id="wnext" aria-label="Next day">›</button>
+      </div>
+      <label class="wwt"><input id="wweight" type="text" inputmode="decimal" maxlength="7" placeholder="0.0" aria-label="Weight"><span class="wunit" id="wunit">kg</span></label>
+      <button type="submit" id="wsave">Save weight</button>
+      <p class="wmsg" id="whint"></p>
+      <p class="wmsg" id="wmsg" role="status" aria-live="polite"></p>
+    </form>
+    <div class="wstats" id="wstats"></div>
+    <div class="chart">
+      <div class="ch"><h2>Weight trend</h2><div class="tabs" id="wtabs"></div></div>
+      <svg id="wcv" viewBox="0 0 520 220"></svg>
+      <div class="tip" id="wtip">Tap a point to see that day.</div>
+    </div>
+    <div class="wlist">
+      <h2>Entries</h2>
+      <p class="wempty" id="wempty">Nothing logged yet. Your weigh-ins will be listed here, newest first.</p>
+      <div id="wlist"></div>
+      <button class="wmore" id="wmore" type="button" hidden>Show all</button>
+    </div>
+  </div>
 </div>
 <script>
-var KEY='habit-tracker-v1',S={habits:[],log:{},screen:{}},range=7;
+/* Cloud sync (optional). To bake in your Firebase project, fill these two values. */
+var FB={apiKey:'AIzaSyBfng-gvp4u8Cyxt_MneLkfaTD15fK_z9Q',projectId:'traker-486b8'},AUTH=null;
+var KEY='habit-tracker-v1',S={habits:[],log:{},screen:{},weight:{},m:{}},range=7;
 try{var raw=localStorage.getItem(KEY);if(raw)S=JSON.parse(raw)}catch(e){}
-S.screen=S.screen||{};
+S.screen=S.screen||{};S.weight=S.weight||{};S.m=S.m||{};
+try{var fo=JSON.parse(localStorage.getItem('habit-tracker-fb')||'null');if(fo&&!FB.apiKey&&fo.apiKey&&fo.projectId)FB={apiKey:fo.apiKey,projectId:fo.projectId};AUTH=JSON.parse(localStorage.getItem('habit-tracker-auth')||'null')}catch(e){}
+function touch(k){S.m=S.m||{};S.m[k]=Math.max(Date.now(),(S.m[k]||0)+1)}
 function fmt(m){var h=Math.floor(m/60),n=m%60;return h?(n?h+'h '+n+'m':h+'h'):n+'m'}
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function save(){persist();if(AUTH)queueSync()}
 function ymd(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
 function parse(s){var p=s.split('-');return new Date(+p[0],+p[1]-1,+p[2])}
 function shift(s,n){var d=parse(s);d.setDate(d.getDate()+n);return ymd(d)}
@@ -145,7 +272,7 @@ function stat(d){var a=active(d),l=S.log[d]||[],n=a.filter(function(h){return l.
 function $(i){return document.getElementById(i)}
 function esc(s){return s.replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
 function burst(el){var cols=['#ffb454','#ff6fae','#8b7bff','#ece9fb'];for(var i=0;i<10;i++){var s=document.createElement('i');s.className='sp';var a=i/10*6.283,r=26+Math.random()*14;s.style.setProperty('--x',Math.cos(a)*r+'px');s.style.setProperty('--y',Math.sin(a)*r+'px');s.style.background=cols[i%4];el.appendChild(s);setTimeout(function(n){return function(){n.remove()}}(s),650)}}
-function toggle(id,btn){var l=S.log[sel]||(S.log[sel]=[]),i=l.indexOf(id);if(i>-1)l.splice(i,1);else{l.push(id);burst(btn)}save();render(true)}
+function toggle(id,btn){var l=S.log[sel]||(S.log[sel]=[]),i=l.indexOf(id);if(i>-1)l.splice(i,1);else{l.push(id);burst(btn)}touch('l|'+sel);save();render(true)}
 function render(keep){
   $('dp').value=sel;$('dp').max=today;$('next').disabled=sel>=today;
   var st=stat(sel),a=active(sel),l=S.log[sel]||[];
@@ -168,7 +295,7 @@ function render(keep){
         li=document.createElement('li');li.dataset.id=h.id;
         li.innerHTML='<button class="chk" aria-label="Mark done"><svg viewBox="0 0 20 20"><path d="M3 10.5l4.5 4.5L17 5"/></svg></button><span class="nm">'+esc(h.name)+'</span><button class="del" aria-label="Remove habit">×</button>';
         li.querySelector('.chk').onclick=function(){toggle(h.id,this)};
-        li.querySelector('.del').onclick=function(){var b=this;if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Delete?';b.style.cssText='color:#ff6fae;font-size:13px;font-weight:800;opacity:1';setTimeout(function(){delete b.dataset.arm;b.textContent='×';b.style.cssText=''},3000);return}S.habits=S.habits.filter(function(x){return x.id!==h.id});Object.keys(S.log).forEach(function(k){S.log[k]=S.log[k].filter(function(id){return id!==h.id})});save();render()};
+        li.querySelector('.del').onclick=function(){var b=this;if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Delete?';b.style.cssText='color:#ff6fae;font-size:13px;font-weight:800;opacity:1';setTimeout(function(){delete b.dataset.arm;b.textContent='×';b.style.cssText=''},3000);return}touch('h|'+h.id);S.habits=S.habits.filter(function(x){return x.id!==h.id});Object.keys(S.log).forEach(function(k){S.log[k]=S.log[k].filter(function(id){return id!==h.id})});save();render()};
         if(ul.children[i])ul.replaceChild(li,ul.children[i]);else ul.appendChild(li);
       }
       li.classList.toggle('done',d);
@@ -198,32 +325,256 @@ function chart(){
   Array.prototype.forEach.call($('cv').querySelectorAll('.hit'),function(c){c.onclick=function(){sel=c.dataset.d;var s=stat(sel);render();$('tip').textContent=parse(sel).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})+': '+s.n+' of '+s.t+' done ('+s.p+'%)'}});
 }
 function tabs(){$('tabs').innerHTML='';[7,30,90].forEach(function(r){var b=document.createElement('button');b.textContent=r+'d';b.className=r===range?'on':'';b.onclick=function(){range=r;tabs();chart()};$('tabs').appendChild(b)})}
-function addHabit(){var v=$('in').value.trim();if(!v)return;S.habits.push({id:'h'+Date.now(),name:v,created:sel});$('in').value='';save();render()}
+function addHabit(){var v=$('in').value.trim();if(!v)return;var hid='h'+Date.now();S.habits.push({id:hid,name:v,created:sel});touch('h|'+hid);$('in').value='';save();render()}
 $('addb').onclick=addHabit;$('in').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();addHabit()}};
 $('prev').onclick=function(){sel=shift(sel,-1);render()};
 $('next').onclick=function(){if(sel<today){sel=shift(sel,1);render()}};
 $('dp').onchange=function(){if(this.value&&this.value<=today){sel=this.value;render()}};
-$('gear').onclick=function(){$('panel').hidden=!$('panel').hidden};
+
+/* ---------- menu ---------- */
+function openMenu(o){$('menu').hidden=!o;$('gear').setAttribute('aria-expanded',String(o))}
+function showView(v){$('habitView').hidden=v!=='habit';$('weightView').hidden=v!=='weight';$('h1').textContent=v==='weight'?'Weight Tracker':'Habit Tracker';
+  Array.prototype.forEach.call($('menu').querySelectorAll('[data-v]'),function(b){b.classList.toggle('on',b.dataset.v===v)});if(v==='weight')wRender();else chart()}
+var curView='habit';
+$('gear').onclick=function(e){e.stopPropagation();openMenu($('menu').hidden)};
+Array.prototype.forEach.call($('menu').querySelectorAll('[data-v]'),function(b){b.onclick=function(){var v=b.dataset.v;openMenu(false);
+  if(v==='settings'){$('panel').hidden=false;window.scrollTo(0,0);return}$('panel').hidden=true;curView=v;showView(v)}});
+document.addEventListener('click',function(e){if(!$('menu').hidden&&!e.target.closest('.mwrap'))openMenu(false)});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){openMenu(false);$('panel').hidden=true}});
+$('pclose').onclick=function(){$('panel').hidden=true};
+
+/* ---------- weight tracker ---------- */
+var KG=0.45359237,WS={unit:'kg',range:'30',all:false,armed:null,armT:null},wsel=null;
+try{var wu=localStorage.getItem('habit-weight-unit');if(wu==='kg'||wu==='lb')WS.unit=wu;var wr=localStorage.getItem('habit-weight-range');if(['7','30','90','all'].indexOf(wr)>-1)WS.range=wr}catch(e){}
+function dn(s){var p=s.split('-');return Date.UTC(+p[0],+p[1]-1,+p[2])/86400000}
+function fd(n){return new Date(n*86400000).toISOString().slice(0,10)}
+function lf(s,o){var p=s.split('-');return new Date(Date.UTC(+p[0],+p[1]-1,+p[2])).toLocaleDateString(undefined,Object.assign({timeZone:'UTC'},o))}
+function wnum(){var t=($('wweight').value||'').replace(',','.').trim();return /^\d*\.?\d*$/.test(t)&&t!==''&&t!=='.'?parseFloat(t):NaN}
+function wd(kg){return WS.unit==='kg'?kg:kg/KG}
+function wf(kg){return wd(kg).toFixed(1)}
+function sg(x){var r=Math.round(x*10)/10;return(r>0?'+':r<0?'−':'')+Math.abs(r).toFixed(1)}
+function wsorted(){return Object.keys(S.weight).sort().map(function(d){return{date:d,kg:S.weight[d]}})}
+function wsay(t,err){var el=$('wmsg');el.textContent=t;el.className='wmsg'+(t?(err?' err':' ok'):'')}
+function wHint(){var d=$('wdate').value,ex=d?S.weight[d]:undefined;$('wnext').disabled=!d||d>=today;$('wweight').placeholder=ex!==undefined?wf(ex):'0.0';
+  $('whint').textContent=ex!==undefined?'You already logged '+wf(ex)+' '+WS.unit+' for this day. Saving replaces it.':''}
+function wCell(k,v,sub){return '<div class="ws"><div class="wk">'+k+'</div><div class="wv">'+v+'</div><div class="wsub">'+esc(sub)+'</div></div>'}
+function wStats(a){
+  var u='<small>'+WS.unit+'</small>',h;
+  if(!a.length){h=wCell('Latest','—','No entries yet')+wCell('Change','—','Since first entry')+wCell('Lowest','—',' ')}
+  else{var last=a[a.length-1],first=a[0],low=a[0];a.forEach(function(e){if(e.kg<low.kg)low=e});
+    h=wCell('Latest',wf(last.kg)+u,lf(last.date,{weekday:'short',day:'numeric',month:'short'}))
+     +(a.length>1?wCell('Change',sg(wd(last.kg)-wd(first.kg))+u,'Since '+lf(first.date,{day:'numeric',month:'short'})):wCell('Change','—','Needs two entries'))
+     +wCell('Lowest',wf(low.kg)+u,lf(low.date,{day:'numeric',month:'short',year:'numeric'}))}
+  $('wstats').innerHTML=h}
+function wChart(a){
+  var cw=520,H=220,L=40,R=14,T=14,B=28,pw=cw-L-R,ph=H-T-B,td=dn(today),n=WS.range==='all'?null:+WS.range,msg=null,d0,d1,svg='';
+  var vis=a.map(function(e){return{date:e.date,day:dn(e.date),v:wd(e.kg)}});
+  if(!vis.length){msg='Save your first weight to see your trend';d0=td-29;d1=td}
+  else if(n){d0=td-n+1;d1=td;vis=vis.filter(function(e){return e.day>=d0&&e.day<=d1});if(!vis.length)msg='No entries in this range'}
+  else{d0=vis[0].day;d1=vis[vis.length-1].day;if(d1-d0<6){var pd=Math.ceil((6-(d1-d0))/2);d0-=pd;d1+=pd}}
+  var vals=vis.map(function(e){return e.v});
+  if(!vals.length){var ref=a.length?wd(a[a.length-1].kg):wd(70);vals=[ref-1,ref+1]}
+  var mn=Math.min.apply(null,vals),mx=Math.max.apply(null,vals),span=WS.unit==='kg'?2:4;
+  if(mx-mn<span){var c=(mx+mn)/2;mn=c-span/2;mx=c+span/2}
+  var pv=(mx-mn)*.15;mn-=pv;mx+=pv;
+  var raw=(mx-mn)/4,pw10=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/pw10,step=(f<1.5?1:f<3.5?2:f<7.5?5:10)*pw10;
+  var lo=Math.floor(mn/step+1e-9)*step,hi=Math.ceil(mx/step-1e-9)*step,dec=step<0.5?2:step<1?1:0;
+  var X=function(d){return L+(d-d0)/((d1-d0)||1)*pw},Y=function(v){return T+(1-(v-lo)/(hi-lo))*ph};
+  svg+='<defs><linearGradient id="war" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb454" stop-opacity=".35"/><stop offset="1" stop-color="#ffb454" stop-opacity="0"/></linearGradient></defs>';
+  for(var v=lo;v<=hi+step/2;v+=step){var vv=Math.round(v*1000)/1000,y=Y(vv);svg+='<line x1="'+L+'" x2="'+(cw-R)+'" y1="'+y+'" y2="'+y+'" stroke="#2f2a4d" stroke-dasharray="3 5"/>'+(a.length?'<text x="'+(L-8)+'" y="'+(y+4)+'" fill="#8f89b3" font-size="11" text-anchor="end">'+vv.toFixed(dec)+'</text>':'')}
+  var k=Math.max(1,Math.min(4,Math.round(d1-d0)));
+  for(var i=0;i<=k;i++){var day=Math.round(d0+i*(d1-d0)/k);svg+='<text x="'+X(day)+'" y="'+(H-8)+'" fill="#8f89b3" font-size="11" text-anchor="'+(i===0?'start':i===k?'end':'middle')+'">'+lf(fd(day),{day:'numeric',month:'short'})+'</text>'}
+  var pts=vis.map(function(e){return{e:e,x:X(e.day),y:Y(e.v)}});
+  if(pts.length>1){var path=pts.map(function(p,j){return(j?'L':'M')+p.x.toFixed(1)+' '+p.y.toFixed(1)}).join(' ');
+    svg+='<path d="'+path+' L'+pts[pts.length-1].x.toFixed(1)+' '+(T+ph)+' L'+pts[0].x.toFixed(1)+' '+(T+ph)+'Z" fill="url(#war)"/><path d="'+path+'" fill="none" stroke="#ffb454" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>'}
+  pts.forEach(function(p,j){var on=p.e.date===wsel,last=j===pts.length-1;
+    if(pts.length<=31||on||last)svg+='<circle cx="'+p.x+'" cy="'+p.y+'" r="'+(on?6:last?5:3.5)+'" fill="'+(on?'#ff6fae':'#ffb454')+'" stroke="#1c1830" stroke-width="2"/>';
+    svg+='<circle class="whit" data-d="'+p.e.date+'" cx="'+p.x+'" cy="'+p.y+'" r="13" fill="transparent" style="cursor:pointer"/>'});
+  if(msg)svg+='<text x="'+(L+pw/2)+'" y="'+(T+ph/2)+'" fill="#8f89b3" font-size="13" text-anchor="middle">'+msg+'</text>';
+  $('wcv').innerHTML=svg;
+  Array.prototype.forEach.call($('wcv').querySelectorAll('.whit'),function(c){c.onclick=function(){wsel=c.dataset.d;var kg=S.weight[wsel];
+    $('wtip').textContent=lf(wsel,{weekday:'short',day:'numeric',month:'short',year:'numeric'})+': '+wf(kg)+' '+WS.unit;wChart(wsorted())}});
+}
+function wList(a){
+  var box=$('wlist'),n=a.length;box.innerHTML='';
+  $('wempty').hidden=n>0;$('wmore').hidden=n<=14;$('wmore').textContent=WS.all?'Show fewer':'Show all '+n;
+  var desc=a.slice().reverse(),shown=WS.all?desc:desc.slice(0,14);
+  shown.forEach(function(e,i){
+    var idx=n-1-i,prev=idx>0?a[idx-1]:null,row=document.createElement('div');row.className='wr';
+    row.innerHTML='<span class="wdt">'+esc(lf(e.date,{weekday:'short',day:'numeric',month:'short',year:'numeric'}))+'</span><b>'+wf(e.kg)+'<small>'+WS.unit+'</small></b><span class="wdl">'+(prev?sg(wd(e.kg)-wd(prev.kg)):'')+'</span>';
+    var b=document.createElement('button');b.type='button';b.className='wdel'+(WS.armed===e.date?' armed':'');b.textContent=WS.armed===e.date?'Confirm':'Delete';
+    b.setAttribute('aria-label',(WS.armed===e.date?'Confirm deleting entry for ':'Delete entry for ')+e.date);
+    b.onclick=function(){clearTimeout(WS.armT);if(WS.armed===e.date){WS.armed=null;delete S.weight[e.date];touch('w|'+e.date);if(wsel===e.date)wsel=null;save();wsay('Entry deleted.',false);wRender();return}
+      WS.armed=e.date;wList(wsorted());WS.armT=setTimeout(function(){WS.armed=null;wList(wsorted())},3000)};
+    row.appendChild(b);box.appendChild(row)});
+}
+function wRender(){
+  var a=wsorted();
+  $('wunit').textContent=WS.unit;
+  $('wunits').innerHTML='';['kg','lb'].forEach(function(u){var b=document.createElement('button');b.type='button';b.textContent=u;b.className=u===WS.unit?'on':'';
+    b.onclick=function(){if(u===WS.unit)return;var cur=wnum();if(cur>0){var kg=WS.unit==='kg'?cur:cur*KG;$('wweight').value=(u==='kg'?kg:kg/KG).toFixed(1)}
+      WS.unit=u;try{localStorage.setItem('habit-weight-unit',u)}catch(e){}$('wtip').textContent='Tap a point to see that day.';wRender()};$('wunits').appendChild(b)});
+  $('wtabs').innerHTML='';[['7','7d'],['30','30d'],['90','90d'],['all','All']].forEach(function(r){var b=document.createElement('button');b.type='button';b.textContent=r[1];b.className=r[0]===WS.range?'on':'';
+    b.onclick=function(){WS.range=r[0];try{localStorage.setItem('habit-weight-range',r[0])}catch(e){}wRender()};$('wtabs').appendChild(b)});
+  wStats(a);wChart(a);wList(a);wHint();
+}
+$('wform').addEventListener('submit',function(ev){ev.preventDefault();
+  var date=$('wdate').value,rawv=wnum();
+  if(!date){wsay('Pick a date first.',true);return}
+  if(!(rawv>0)){wsay('Enter your weight first, for example 72.5.',true);return}
+  if(date>today){wsay('You can’t log a future date.',true);return}
+  var kg=Math.round((WS.unit==='kg'?rawv:rawv*KG)*1000)/1000;
+  if(kg<20||kg>500){wsay('That weight looks off. Check the number and the unit.',true);return}
+  S.weight[date]=kg;touch('w|'+date);save();$('wweight').value='';
+  wsay('Saved '+wf(kg)+' '+WS.unit+' for '+lf(date,{weekday:'short',day:'numeric',month:'short'})+'.',false);wRender()});
+$('wdate').value=today;$('wdate').max=today;
+$('wweight').addEventListener('input',function(){var v=this.value.replace(/[^0-9.,]/g,'');if(v!==this.value)this.value=v});
+$('wdate').onchange=function(){wsay('',false);wHint()};
+function wshift(n){var nd=fd(dn($('wdate').value||today)+n);if(nd>today)nd=today;$('wdate').value=nd;wsay('',false);wHint()}
+$('wprev').onclick=function(){wshift(-1)};$('wnext').onclick=function(){wshift(1)};
+$('wmore').onclick=function(){WS.all=!WS.all;wList(wsorted())};
+
 $('rst').onclick=function(){var b=this;if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Tap again to erase everything';setTimeout(function(){delete b.dataset.arm;b.textContent='Reset progress'},3500);return}
-delete b.dataset.arm;b.textContent='Reset progress';S={habits:[],log:{},screen:{}};try{localStorage.removeItem(KEY)}catch(e){}sel=today;range=7;$('panel').hidden=true;$('tip').textContent='Tap a point to open that day.';tabs();render()};
+delete b.dataset.arm;b.textContent='Reset progress';var rk=allKeys(S),rm=S.m||{};S={habits:[],log:{},screen:{},weight:{},m:rm};rk.forEach(function(k){touch(k)});save();sel=today;range=7;$('panel').hidden=true;$('tip').textContent='Tap a point to open that day.';tabs();render();wsel=null;$('wdate').value=today;$('wweight').value='';$('wmsg').textContent='';wRender()};
 $('sv').onclick=function(){var m=S.screen[sel];$('sh').value=m==null?'':Math.floor(m/60);$('sm').value=m==null?'':m%60;this.hidden=true;$('se').hidden=false;$('sh').focus()};
-$('ss').onclick=function(){var h=$('sh').value,n=$('sm').value;if(h===''&&n===''){delete S.screen[sel]}else{S.screen[sel]=Math.min(1440,Math.max(0,Math.round((+h||0)*60+(+n||0))))}save();render(true)};
+$('ss').onclick=function(){var h=$('sh').value,n=$('sm').value;if(h===''&&n===''){delete S.screen[sel]}else{S.screen[sel]=Math.min(1440,Math.max(0,Math.round((+h||0)*60+(+n||0))))}touch('s|'+sel);save();render(true)};
 function clampIn(el,mx){el.addEventListener('keydown',function(e){if(['-','+','e','E','.',','].indexOf(e.key)>-1)e.preventDefault()});el.addEventListener('input',function(){var v=el.value.replace(/\D/g,'');if(v!==''){v=String(Math.min(mx,parseInt(v,10)))}if(el.value!==v)el.value=v})}
 clampIn($('sh'),24);clampIn($('sm'),60);
 function bmsg(t){$('bmsg').textContent=t}
 function backupData(){return JSON.stringify({app:'habit-tracker',version:1,saved:new Date().toISOString(),data:S},null,1)}
 function applyBackup(txt){try{var j=JSON.parse(txt),d=j&&j.data?j.data:j;if(!d||!Array.isArray(d.habits)||typeof d.log!=='object'||!d.log)throw 0;
-var hb=d.habits.filter(function(h){return h&&typeof h.id==='string'&&typeof h.name==='string'&&typeof h.created==='string'}).map(function(h){return{id:h.id,name:h.name.slice(0,60),created:h.created,removed:typeof h.removed==='string'?h.removed:undefined}});
+var hb=d.habits.filter(function(h){return h&&typeof h.id==='string'&&/^[A-Za-z0-9_-]{1,40}$/.test(h.id)&&typeof h.name==='string'&&typeof h.created==='string'}).map(function(h){return{id:h.id,name:h.name.slice(0,60),created:h.created,removed:typeof h.removed==='string'?h.removed:undefined}});
 var lg={};Object.keys(d.log).forEach(function(k){if(Array.isArray(d.log[k]))lg[k]=d.log[k].filter(function(x){return typeof x==='string'})});
 var sc={};if(d.screen&&typeof d.screen==='object')Object.keys(d.screen).forEach(function(k){var v=+d.screen[k];if(isFinite(v))sc[k]=Math.min(1440,Math.max(0,Math.round(v)))});
-S={habits:hb,log:lg,screen:sc};save();sel=today;render();bmsg('Restored '+hb.length+' habits from your backup.')}catch(e){bmsg("That does not look like a Habit Tracker backup.")}}
+var wt={};if(d.weight===undefined){wt=S.weight||{}}else if(d.weight&&typeof d.weight==='object'){Object.keys(d.weight).forEach(function(k){var v=+d.weight[k];if(/^\d{4}-\d{2}-\d{2}$/.test(k)&&isFinite(v)&&v>=20&&v<=500)wt[k]=v})}
+var oks=allKeys(S),om=S.m||{};S={habits:hb,log:lg,screen:sc,weight:wt,m:om};oks.concat(allKeys(S)).forEach(function(k){touch(k)});save();sel=today;render();wRender();bmsg('Restored '+hb.length+' habits and '+Object.keys(wt).length+' weight entries from your backup.')}catch(e){bmsg("That does not look like a Habit Tracker backup.")}}
 $('bk').onclick=function(){var t=backupData();$('bt').value=t;try{var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:'application/json'}));a.download='habit-tracker-backup-'+today+'.json';document.body.appendChild(a);a.click();a.remove();bmsg('Backup created: habit-tracker-backup-'+today+'.json. Look in your Downloads folder. If it is not there, use the text backup below.')}catch(e){bmsg('Download is not available here. Use the text backup below.');$('tbox').hidden=false}};
 $('rs').onclick=function(){$('rf').click()};
 $('rf').onchange=function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){applyBackup(r.result)};r.readAsText(f);this.value=''};
 $('tl').onclick=function(){var b=$('tbox');b.hidden=!b.hidden;if(!b.hidden)$('bt').value=backupData()};
 $('tc').onclick=function(){$('bt').select();try{document.execCommand('copy');bmsg('Backup text copied. Paste it into Notes or send it to yourself.')}catch(e){bmsg('Select the text and copy it manually.')}};
 $('tr').onclick=function(){var v=$('bt').value.trim();if(v)applyBackup(v)};
-tabs();render();
+
+/* ---------- account + cloud sync (optional) ---------- */
+function fbOn(){return !!(FB.apiKey&&FB.projectId)}
+function setAuth(a){AUTH=a;try{if(a)localStorage.setItem('habit-tracker-auth',JSON.stringify(a));else localStorage.removeItem('habit-tracker-auth')}catch(e){}}
+function amsg(t,err){var e=$('amsg');e.textContent=t;e.style.color=err?'var(--pink)':''}
+function setStatus(t){var e=$('async');if(e)e.textContent=t}
+function renderAccount(){var on=fbOn();$('aoff').hidden=on;$('ain').hidden=!on||!!AUTH;$('aon').hidden=!on||!AUTH;if(AUTH)$('aemail').textContent=AUTH.email}
+function authErr(e){var m=(e&&e.message)||'';
+  if(e instanceof TypeError)return 'No internet connection. Try again when you are online.';
+  if(m.indexOf('EMAIL_EXISTS')===0)return 'An account with this email already exists. Try logging in.';
+  if(/^(INVALID_LOGIN_CREDENTIALS|INVALID_PASSWORD|EMAIL_NOT_FOUND)/.test(m))return 'Wrong email or password.';
+  if(m.indexOf('WEAK_PASSWORD')===0)return 'Password must be at least 6 characters.';
+  if(m.indexOf('INVALID_EMAIL')===0||m.indexOf('MISSING_EMAIL')===0)return 'Enter a valid email address.';
+  if(m.indexOf('TOO_MANY_ATTEMPTS')===0)return 'Too many attempts. Try again in a few minutes.';
+  if(m.indexOf('OPERATION_NOT_ALLOWED')===0)return 'Email login is not turned on for this Firebase project.';
+  if(m.indexOf('API key not valid')===0||m.indexOf('API_KEY')>-1)return 'The Firebase apiKey is not valid.';
+  return 'Something went wrong ('+(m||'unknown')+').'}
+async function idCall(path,body){
+  var r=await fetch('https://identitytoolkit.googleapis.com/v1/accounts:'+path+'?key='+encodeURIComponent(FB.apiKey),{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  var j=await r.json().catch(function(){return{}});
+  if(!r.ok)throw new Error((j.error&&j.error.message)||'HTTP '+r.status);
+  return j}
+function lockAcct(b){['ali','asu','afg','asn','alo'].forEach(function(i){$(i).disabled=b})}
+async function doAuth(kind){
+  var em=$('aem').value.trim(),pw=$('apw').value;
+  if(!em||!pw){amsg('Enter your email and password.',true);return}
+  amsg(kind==='up'?'Creating account…':'Logging in…',false);lockAcct(true);
+  try{
+    var j=await idCall(kind==='up'?'signUp':'signInWithPassword',{email:em,password:pw,returnSecureToken:true});
+    var prev=null;try{prev=localStorage.getItem('habit-tracker-acct')}catch(e){}
+    if(prev&&prev!==j.localId){S={habits:[],log:{},screen:{},weight:{},m:{}};persist();render();wRender()}
+    setAuth({uid:j.localId,email:j.email||em,refresh:j.refreshToken,id:j.idToken,exp:Date.now()+(+j.expiresIn||3600)*1000});
+    try{localStorage.setItem('habit-tracker-acct',j.localId)}catch(e){}
+    $('apw').value='';amsg('',false);renderAccount();lockAcct(false);await syncNow();return
+  }catch(e){amsg(authErr(e),true)}
+  lockAcct(false)}
+async function getToken(){
+  if(AUTH.id&&Date.now()<AUTH.exp-60000)return AUTH.id;
+  var r=await fetch('https://securetoken.googleapis.com/v1/token?key='+encodeURIComponent(FB.apiKey),{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(AUTH.refresh)});
+  var j=await r.json().catch(function(){return{}});
+  if(!r.ok){var e=new Error((j.error&&j.error.message)||'TOKEN');e.session=(r.status===400);e.status=r.status;throw e}
+  setAuth({uid:AUTH.uid,email:AUTH.email,refresh:j.refresh_token||AUTH.refresh,id:j.id_token,exp:Date.now()+(+j.expires_in||3600)*1000});
+  return AUTH.id}
+function docUrl(){return 'https://firestore.googleapis.com/v1/projects/'+encodeURIComponent(FB.projectId)+'/databases/(default)/documents/users/'+encodeURIComponent(AUTH.uid)}
+async function fsGet(tok){
+  var r=await fetch(docUrl(),{headers:{Authorization:'Bearer '+tok}});
+  if(r.status===404)return{state:null,ut:null};
+  if(!r.ok){var e=new Error('FS'+r.status);e.status=r.status;throw e}
+  var j=await r.json(),str=j.fields&&j.fields.data&&j.fields.data.stringValue,st=null;
+  try{st=str?JSON.parse(str):null}catch(e){st=null}
+  return{state:st,ut:j.updateTime||null}}
+async function fsPut(tok,ut){
+  var q=ut?'currentDocument.updateTime='+encodeURIComponent(ut):'currentDocument.exists=false';
+  var body={fields:{data:{stringValue:JSON.stringify({habits:S.habits,log:S.log,screen:S.screen,weight:S.weight,m:S.m})},updated:{integerValue:String(Date.now())}}};
+  var r=await fetch(docUrl()+'?'+q,{method:'PATCH',headers:{Authorization:'Bearer '+tok,'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(r.ok)return true;
+  var j=await r.json().catch(function(){return{}}),st=j.error&&j.error.status;
+  if(r.status===409||st==='ABORTED'||st==='FAILED_PRECONDITION'||st==='ALREADY_EXISTS')return false;
+  var e=new Error('FS'+r.status);e.status=r.status;throw e}
+/* data model: every habit, day of ticks, screen-time day and weight day is one item with a last-changed time. The newer side wins per item. */
+function allKeys(st){var k=[];st.habits.forEach(function(h){k.push('h|'+h.id)});Object.keys(st.log).forEach(function(d){k.push('l|'+d)});Object.keys(st.screen).forEach(function(d){k.push('s|'+d)});Object.keys(st.weight).forEach(function(d){k.push('w|'+d)});return k}
+function getV(st,k){var t=k[0],r=k.slice(2);if(t==='h'){for(var i=0;i<st.habits.length;i++)if(st.habits[i].id===r)return st.habits[i];return undefined}return(t==='l'?st.log:t==='s'?st.screen:st.weight)[r]}
+function setV(st,k,v){var t=k[0],r=k.slice(2);
+  if(t==='h'){var i=-1;for(var j=0;j<st.habits.length;j++)if(st.habits[j].id===r){i=j;break}
+    if(v===undefined){if(i>-1)st.habits.splice(i,1)}else if(i>-1)st.habits[i]=v;else st.habits.push(v)}
+  else{var map=t==='l'?st.log:t==='s'?st.screen:st.weight;if(v===undefined)delete map[r];else map[r]=v}}
+function cleanState(d){
+  var o={habits:[],log:{},screen:{},weight:{},m:{}},dr=/^\d{4}-\d{2}-\d{2}$/;if(!d||typeof d!=='object')return o;
+  (Array.isArray(d.habits)?d.habits:[]).forEach(function(h){if(h&&typeof h.id==='string'&&/^[A-Za-z0-9_-]{1,40}$/.test(h.id)&&typeof h.name==='string'&&typeof h.created==='string')o.habits.push({id:h.id,name:h.name.slice(0,60),created:h.created})});
+  if(d.log&&typeof d.log==='object')Object.keys(d.log).forEach(function(k){if(dr.test(k)&&Array.isArray(d.log[k]))o.log[k]=d.log[k].filter(function(x){return typeof x==='string'})});
+  if(d.screen&&typeof d.screen==='object')Object.keys(d.screen).forEach(function(k){var v=+d.screen[k];if(dr.test(k)&&isFinite(v))o.screen[k]=Math.min(1440,Math.max(0,Math.round(v)))});
+  if(d.weight&&typeof d.weight==='object')Object.keys(d.weight).forEach(function(k){var v=+d.weight[k];if(dr.test(k)&&isFinite(v)&&v>=20&&v<=500)o.weight[k]=v});
+  if(d.m&&typeof d.m==='object')Object.keys(d.m).forEach(function(k){var v=+d.m[k];if(/^[hlsw]\|/.test(k)&&isFinite(v))o.m[k]=v});
+  return o}
+function ensureMeta(){S.m=S.m||{};allKeys(S).forEach(function(k){if(S.m[k]===undefined)S.m[k]=1})}
+function mergeStates(L,R){
+  var M=L.m||(L.m={}),RM=R.m;
+  Object.keys(RM).forEach(function(k){if(RM[k]>(M[k]||0)){var v=getV(R,k);setV(L,k,v===undefined?undefined:JSON.parse(JSON.stringify(v)));M[k]=RM[k]}});
+  var ids={};L.habits.forEach(function(h){ids[h.id]=1});
+  Object.keys(L.log).forEach(function(d){L.log[d]=L.log[d].filter(function(id){return ids[id]})});
+  return Object.keys(M).some(function(k){return M[k]>(RM[k]||0)})}
+var syncing=false,pending=false,qt=null;
+function queueSync(){clearTimeout(qt);qt=setTimeout(syncNow,1500)}
+async function syncNow(){
+  if(!AUTH||!fbOn())return;
+  if(syncing){pending=true;return}
+  syncing=true;setStatus('Syncing…');
+  try{
+    for(var n=0;n<3;n++){
+      var tok=await getToken(),g=await fsGet(tok);
+      ensureMeta();
+      var before=JSON.stringify(S),need;
+      if(g.state)need=mergeStates(S,cleanState(g.state));else need=Object.keys(S.m).length>0;
+      if(JSON.stringify(S)!==before){persist();render();wRender()}
+      if(!need)break;
+      if(await fsPut(tok,g.ut))break;
+      if(n===2){var ce=new Error('CONFLICT');throw ce}
+    }
+    setStatus('Synced at '+new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}))
+  }catch(e){
+    if(e.session){clearTimeout(qt);setAuth(null);renderAccount();amsg('Your session expired. Log in again.',true)}
+    else if(e instanceof TypeError||!navigator.onLine)setStatus('Offline. Your changes will sync when you are back online.');
+    else if(e.status===401||e.status===403)setStatus('Cloud storage refused access. The Firestore rules need to allow signed-in users.');
+    else if(e.message==='CONFLICT'){setStatus('Sync was busy. Retrying.');pending=true}
+    else setStatus('Sync failed. Will try again.')}
+  syncing=false;if(pending){pending=false;queueSync()}}
+$('ali').onclick=function(){doAuth('in')};
+$('asu').onclick=function(){doAuth('up')};
+$('apw').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();doAuth('in')}};
+$('afg').onclick=async function(){var em=$('aem').value.trim();if(!em){amsg('Enter your email above first.',true);return}
+  lockAcct(true);try{await idCall('sendOobCode',{requestType:'PASSWORD_RESET',email:em});amsg('Password reset email sent. Check your inbox.',false)}catch(e){amsg(/EMAIL_NOT_FOUND/.test(e.message||'')?'No account with this email.':authErr(e),true)}lockAcct(false)};
+$('asn').onclick=function(){amsg('',false);syncNow()};
+$('alo').onclick=function(){clearTimeout(qt);setAuth(null);renderAccount();amsg('Logged out. Your data stays on this device.',false)};
+$('afbt').onclick=function(){$('afb').hidden=!$('afb').hidden};
+$('afs').onclick=function(){var k=$('afk').value.trim(),p=$('afp').value.trim();if(!k||!p){amsg('Enter both the apiKey and the projectId.',true);return}
+  FB={apiKey:k,projectId:p};try{localStorage.setItem('habit-tracker-fb',JSON.stringify(FB))}catch(e){}amsg('Saved. You can log in now.',false);renderAccount()};
+setInterval(function(){if(AUTH&&!document.hidden)syncNow()},45000);
+document.addEventListener('visibilitychange',function(){if(!document.hidden&&AUTH)syncNow()});
+window.addEventListener('online',function(){if(AUTH)syncNow()});
+
+tabs();render();renderAccount();if(AUTH&&fbOn())syncNow();
 </script>
 </body>
 </html>
