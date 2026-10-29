@@ -135,6 +135,22 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 .panel .ph h2{margin:0;font-size:20px}
 #pclose{background:none;border:1px solid var(--line);color:var(--tx);width:38px;height:38px;border-radius:10px;font-size:17px;line-height:1;cursor:pointer}
 #pclose:hover{border-color:var(--vio)}
+#wclear{background:none;border:1px solid var(--line);color:var(--mut);border-radius:12px;height:44px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+#wclear.armed{border-color:var(--pink);color:var(--pink);font-weight:800}
+.wclear{background:none;border:1px solid var(--pink);color:var(--pink);border-radius:12px;height:44px;font:inherit;font-weight:700;cursor:pointer}
+.wclear[hidden],.wconf[hidden]{display:none}
+.wconf{background:#2a1530;border:1px solid var(--pink);border-radius:14px;padding:12px;display:grid;gap:10px}
+.wconf span{font-size:14px;line-height:1.4}
+.wconf .arow button{height:42px;border-radius:10px;font:inherit;font-weight:800;cursor:pointer;border:1px solid var(--pink)}
+#wyes{background:var(--pink);color:#120f1d}
+#wno{background:none;color:var(--tx);border-color:var(--line)!important}
+.edt{background:none;border:0;color:var(--mut);font-size:18px;cursor:pointer;padding:6px;opacity:.75;line-height:1}
+.edt:hover{color:var(--gold);opacity:1}
+.nmi{flex:1;min-width:0;height:40px;background:var(--bg);border:1px solid var(--vio);border-radius:10px;color:var(--tx);font:inherit;font-size:16px;padding:0 10px}
+.nmi:focus{outline:2px solid var(--vio);outline-offset:1px}
+.eok,.eno{flex:none;width:40px;height:40px;border-radius:10px;font-size:18px;font-weight:800;cursor:pointer;line-height:1}
+.eok{background:var(--gold);color:#2a1a00;border:0}
+.eno{background:none;color:var(--tx);border:1px solid var(--line)}
 </style>
 </head>
 <body>
@@ -235,6 +251,9 @@ button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
       </div>
       <label class="wwt"><input id="wweight" type="text" inputmode="decimal" maxlength="7" placeholder="0.0" aria-label="Weight"><span class="wunit" id="wunit">kg</span></label>
       <button type="submit" id="wsave">Save weight</button>
+      <button type="button" class="wclear" id="wclear" hidden>Clear weight for this day</button>
+      <div class="wconf" id="wconf" hidden role="alertdialog" aria-live="assertive"><span id="wconft"></span><div class="arow"><button type="button" id="wyes">Yes, clear it</button><button type="button" id="wno">Cancel</button></div></div>
+      <button type="button" id="wclear" hidden>Clear weight for this day</button>
       <p class="wmsg" id="whint"></p>
       <p class="wmsg" id="wmsg" role="status" aria-live="polite"></p>
     </form>
@@ -293,8 +312,9 @@ function render(keep){
       var d=l.indexOf(h.id)>-1,li=ul.children[i];
       if(!li||li.dataset.id!==h.id){
         li=document.createElement('li');li.dataset.id=h.id;
-        li.innerHTML='<button class="chk" aria-label="Mark done"><svg viewBox="0 0 20 20"><path d="M3 10.5l4.5 4.5L17 5"/></svg></button><span class="nm">'+esc(h.name)+'</span><button class="del" aria-label="Remove habit">×</button>';
+        li.innerHTML='<button class="chk" aria-label="Mark done"><svg viewBox="0 0 20 20"><path d="M3 10.5l4.5 4.5L17 5"/></svg></button><span class="nm">'+esc(h.name)+'</span><button class="edt" aria-label="Edit habit">✎</button><button class="del" aria-label="Remove habit">×</button>';
         li.querySelector('.chk').onclick=function(){toggle(h.id,this)};
+        li.querySelector('.edt').onclick=function(){startEdit(li,h)};
         li.querySelector('.del').onclick=function(){var b=this;if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Delete?';b.style.cssText='color:#ff6fae;font-size:13px;font-weight:800;opacity:1';setTimeout(function(){delete b.dataset.arm;b.textContent='×';b.style.cssText=''},3000);return}touch('h|'+h.id);S.habits=S.habits.filter(function(x){return x.id!==h.id});Object.keys(S.log).forEach(function(k){S.log[k]=S.log[k].filter(function(id){return id!==h.id})});save();render()};
         if(ul.children[i])ul.replaceChild(li,ul.children[i]);else ul.appendChild(li);
       }
@@ -325,6 +345,16 @@ function chart(){
   Array.prototype.forEach.call($('cv').querySelectorAll('.hit'),function(c){c.onclick=function(){sel=c.dataset.d;var s=stat(sel);render();$('tip').textContent=parse(sel).toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'})+': '+s.n+' of '+s.t+' done ('+s.p+'%)'}});
 }
 function tabs(){$('tabs').innerHTML='';[7,30,90].forEach(function(r){var b=document.createElement('button');b.textContent=r+'d';b.className=r===range?'on':'';b.onclick=function(){range=r;tabs();chart()};$('tabs').appendChild(b)})}
+function startEdit(li,h){
+  li.innerHTML='';li.classList.remove('done');
+  var inp=document.createElement('input');inp.className='nmi';inp.type='text';inp.maxLength=60;inp.value=h.name;inp.setAttribute('aria-label','Habit name');
+  var ok=document.createElement('button');ok.type='button';ok.className='eok';ok.textContent='\u2713';ok.setAttribute('aria-label','Save name');
+  var no=document.createElement('button');no.type='button';no.className='eno';no.textContent='\u2715';no.setAttribute('aria-label','Cancel');
+  function done(){var v=inp.value.trim();if(!v){inp.focus();inp.placeholder='Enter a name';return}
+    if(v!==h.name){h.name=v;touch('h|'+h.id);save()}render()}
+  ok.onclick=done;no.onclick=function(){render()};
+  inp.onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();done()}else if(e.key==='Escape'){render()}};
+  li.appendChild(inp);li.appendChild(ok);li.appendChild(no);inp.focus();inp.select()}
 function addHabit(){var v=$('in').value.trim();if(!v)return;var hid='h'+Date.now();S.habits.push({id:hid,name:v,created:sel});touch('h|'+hid);$('in').value='';save();render()}
 $('addb').onclick=addHabit;$('in').onkeydown=function(e){if(e.key==='Enter'){e.preventDefault();addHabit()}};
 $('prev').onclick=function(){sel=shift(sel,-1);render()};
@@ -355,8 +385,10 @@ function wf(kg){return wd(kg).toFixed(1)}
 function sg(x){var r=Math.round(x*10)/10;return(r>0?'+':r<0?'−':'')+Math.abs(r).toFixed(1)}
 function wsorted(){return Object.keys(S.weight).sort().map(function(d){return{date:d,kg:S.weight[d]}})}
 function wsay(t,err){var el=$('wmsg');el.textContent=t;el.className='wmsg'+(t?(err?' err':' ok'):'')}
-function wHint(){var d=$('wdate').value,ex=d?S.weight[d]:undefined;$('wnext').disabled=!d||d>=today;$('wweight').placeholder=ex!==undefined?wf(ex):'0.0';
-  $('whint').textContent=ex!==undefined?'You already logged '+wf(ex)+' '+WS.unit+' for this day. Saving replaces it.':''}
+var wcT=null;
+function wClearReset(){clearTimeout(wcT);var b=$('wclear');delete b.dataset.arm;b.classList.remove('armed');b.textContent='Clear weight for this day'}
+function wHint(){var d=$('wdate').value,ex=d?S.weight[d]:undefined;$('wclear').hidden=ex===undefined;$('wconf').hidden=true;$('wclear').hidden=ex===undefined;wClearReset();$('wnext').disabled=!d||d>=today;$('wweight').placeholder=ex!==undefined?wf(ex):'0.0';
+  $('whint').textContent=ex!==undefined?'You already logged '+wf(ex)+' '+WS.unit+' for this day. Saving replaces it, or you can clear it.':''}
 function wCell(k,v,sub){return '<div class="ws"><div class="wk">'+k+'</div><div class="wv">'+v+'</div><div class="wsub">'+esc(sub)+'</div></div>'}
 function wStats(a){
   var u='<small>'+WS.unit+'</small>',h;
@@ -402,9 +434,9 @@ function wList(a){
   shown.forEach(function(e,i){
     var idx=n-1-i,prev=idx>0?a[idx-1]:null,row=document.createElement('div');row.className='wr';
     row.innerHTML='<span class="wdt">'+esc(lf(e.date,{weekday:'short',day:'numeric',month:'short',year:'numeric'}))+'</span><b>'+wf(e.kg)+'<small>'+WS.unit+'</small></b><span class="wdl">'+(prev?sg(wd(e.kg)-wd(prev.kg)):'')+'</span>';
-    var b=document.createElement('button');b.type='button';b.className='wdel'+(WS.armed===e.date?' armed':'');b.textContent=WS.armed===e.date?'Confirm':'Delete';
-    b.setAttribute('aria-label',(WS.armed===e.date?'Confirm deleting entry for ':'Delete entry for ')+e.date);
-    b.onclick=function(){clearTimeout(WS.armT);if(WS.armed===e.date){WS.armed=null;delete S.weight[e.date];touch('w|'+e.date);if(wsel===e.date)wsel=null;save();wsay('Entry deleted.',false);wRender();return}
+    var b=document.createElement('button');b.type='button';b.className='wdel'+(WS.armed===e.date?' armed':'');b.textContent=WS.armed===e.date?'Confirm':'Clear';
+    b.setAttribute('aria-label',(WS.armed===e.date?'Confirm clearing weight for ':'Clear weight for ')+e.date);
+    b.onclick=function(){clearTimeout(WS.armT);if(WS.armed===e.date){WS.armed=null;delete S.weight[e.date];touch('w|'+e.date);if(wsel===e.date)wsel=null;save();wsay('Weight cleared for '+lf(e.date,{weekday:'short',day:'numeric',month:'short'})+'.',false);wRender();return}
       WS.armed=e.date;wList(wsorted());WS.armT=setTimeout(function(){WS.armed=null;wList(wsorted())},3000)};
     row.appendChild(b);box.appendChild(row)});
 }
@@ -431,7 +463,16 @@ $('wdate').value=today;$('wdate').max=today;
 $('wweight').addEventListener('input',function(){var v=this.value.replace(/[^0-9.,]/g,'');if(v!==this.value)this.value=v});
 $('wdate').onchange=function(){wsay('',false);wHint()};
 function wshift(n){var nd=fd(dn($('wdate').value||today)+n);if(nd>today)nd=today;$('wdate').value=nd;wsay('',false);wHint()}
+$('wclear').onclick=function(){var b=this,date=$('wdate').value;if(!date||S.weight[date]===undefined)return;
+  if(!b.dataset.arm){b.dataset.arm='1';b.classList.add('armed');b.textContent='Tap again to clear this weight';wcT=setTimeout(wClearReset,3500);return}
+  wClearReset();delete S.weight[date];touch('w|'+date);if(wsel===date)wsel=null;save();
+  wsay('Weight cleared for '+lf(date,{weekday:'short',day:'numeric',month:'short'})+'.',false);wRender()};
 $('wprev').onclick=function(){wshift(-1)};$('wnext').onclick=function(){wshift(1)};
+$('wclear').onclick=function(){var d=$('wdate').value,v=S.weight[d];if(v===undefined)return;
+  $('wconft').textContent='Clear the weight for '+lf(d,{weekday:'short',day:'numeric',month:'short'})+' ('+wf(v)+' '+WS.unit+')? That day will be left out of your graph.';$('wclear').hidden=true;$('wconf').hidden=false};
+$('wno').onclick=function(){$('wconf').hidden=true;$('wclear').hidden=false};
+$('wyes').onclick=function(){var d=$('wdate').value;if(S.weight[d]===undefined){wHint();return}
+  delete S.weight[d];touch('w|'+d);if(wsel===d)wsel=null;save();wsay('Cleared the weight for '+lf(d,{weekday:'short',day:'numeric',month:'short'})+'.',false);wRender()};
 $('wmore').onclick=function(){WS.all=!WS.all;wList(wsorted())};
 
 $('rst').onclick=function(){var b=this;if(!b.dataset.arm){b.dataset.arm='1';b.textContent='Tap again to erase everything';setTimeout(function(){delete b.dataset.arm;b.textContent='Reset progress'},3500);return}
